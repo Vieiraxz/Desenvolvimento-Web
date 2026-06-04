@@ -14,8 +14,26 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Redireciona diretamente para o WhatsApp (links wa.me/message não suportam parâmetros)
-    window.open("https://wa.me/message/FKWD026YJXOQO1", "_blank");
+    // Monta a mensagem para o WhatsApp
+    const servicosMap: Record<string, string> = {
+      facial: "Tratamentos Faciais",
+      corporal: "Tratamentos Corporais",
+      laser: "Depilação a Laser",
+      outro: "Outro",
+    };
+    
+    const servicoNome = servicosMap[formData.service] || formData.service;
+    
+    const mensagem = `Olá! Meu nome é ${formData.name}.
+
+E-mail: ${formData.email}
+Telefone: ${formData.phone}
+Serviço de interesse: ${servicoNome}
+
+Mensagem: ${formData.message || "Gostaria de mais informações."}`;
+
+    // Redireciona para o WhatsApp com o número direto (suporta ?text=)
+    window.open(`https://wa.me/556296885806?text=${encodeURIComponent(mensagem)}`, "_blank");
   };
 
   return (
